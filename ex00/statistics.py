@@ -33,10 +33,25 @@ def compute_quartile(*args: float | int) -> list[float]:
     last = compute_median(*numbers[start_second_half:])
     return [first, last]
 
+def compute_var(*args: float | int) -> float:
+    if len(args) < 2:
+        raise ValueError("At least 2 numbers required for quartiles computation")
+
+    mean = compute_mean(*args)
+    num = 0
+    for nombre in args:
+        num += ((nombre - mean) ** 2)
+    return num / len(args)
+
+def compute_std(*args: float | int) -> float:
+    return compute_var(*args) ** 0.5
+
 functions = {
     "mean": compute_mean,
     "median": compute_median,
     "quartile": compute_quartile,
+    "var": compute_var,
+    "std": compute_std,
 }
 
 def ft_statistics(*args: Any, **kwargs: Any) -> None:
