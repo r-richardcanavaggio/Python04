@@ -7,9 +7,11 @@ def compute_mean(*args: float | int) -> float:
 
     return sum(args) / len(args)
 
+
 def compute_median(*args: float | int) -> float:
     if not args:
-        raise ValueError("One number required for median computation")
+        raise ValueError("At least one number required"
+                         "for median computation")
 
     numbers = sorted(args)
     n = len(numbers)
@@ -20,9 +22,11 @@ def compute_median(*args: float | int) -> float:
     else:
         return (numbers[mid - 1] + numbers[mid]) / 2.0
 
+
 def compute_quartile(*args: float | int) -> list[float]:
     if len(args) < 2:
-        raise ValueError("At least 2 numbers required for quartiles computation")
+        raise ValueError("At least two numbers required"
+                         "for quartiles computation")
 
     numbers = sorted(args)
     n = len(numbers)
@@ -33,16 +37,20 @@ def compute_quartile(*args: float | int) -> list[float]:
     last = compute_median(*numbers[start_second_half:])
     return [first, last]
 
+
 def compute_var(*args: float | int) -> float:
     if not args:
-        raise ValueError("At least one number required for variance computation")
+        raise ValueError("At least one number required"
+                         "for variance computation")
 
     mean = compute_mean(*args)
-    
+
     return sum((x - mean) ** 2 for x in args) / len(args)
+
 
 def compute_std(*args: float | int) -> float:
     return compute_var(*args) ** 0.5
+
 
 functions = {
     "mean": compute_mean,
@@ -51,6 +59,7 @@ functions = {
     "var": compute_var,
     "std": compute_std,
 }
+
 
 def ft_statistics(*args: Any, **kwargs: Any) -> None:
     for key, value in kwargs.items():
