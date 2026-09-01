@@ -34,14 +34,12 @@ def compute_quartile(*args: float | int) -> list[float]:
     return [first, last]
 
 def compute_var(*args: float | int) -> float:
-    if len(args) < 2:
-        raise ValueError("At least 2 numbers required for quartiles computation")
+    if not args:
+        raise ValueError("At least one number required for variance computation")
 
     mean = compute_mean(*args)
-    num = 0
-    for nombre in args:
-        num += ((nombre - mean) ** 2)
-    return num / len(args)
+    
+    return sum((x - mean) ** 2 for x in args) / len(args)
 
 def compute_std(*args: float | int) -> float:
     return compute_var(*args) ** 0.5
