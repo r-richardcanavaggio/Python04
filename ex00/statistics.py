@@ -1,29 +1,51 @@
 from typing import Any
 
 
-def ft_statistics(*args: Any, **kwargs: Any) -> None:
-    mean = kwargs.get('mean', None)
-    median = kwargs.get('median', None)
-    quartile = kwargs.get('quartile', None)
-    std = kwargs.get('std', None)
-    var = kwargs.get('var', None)
+def compute_mean(*args: float | int) -> float:
+    if not args:
+        raise ValueError("One number required for mean computation")
 
+    return sum(args) / len(args)
+
+def compute_median(*args: float | int) -> float:
+    if not args:
+        raise ValueError("One number required for median computation")
+
+    numbers = sorted(args)
+    n = len(numbers)
+    mid = n // 2
+
+    if n % 2 != 0:
+        return float(numbers[mid])
+    else:
+        return (numbers[mid - 1] + numbers[mid]) / 2.0
+
+def compute_quartile(*args: float | int) -> list[float]:
+    if len(args) < 2:
+        raise ValueError("At least 2 numbers required for quartiles computation")
+
+    numbers = sorted(args)
+    n = len(numbers)
+    mid = n // 2
+
+    first = compute_median(*numbers[:mid])
+    start_second_half = mid + 1 if n % 2 != 0 else mid
+    last = compute_median(*numbers[start_second_half:])
+    return [first, last]
+
+functions = {
+    "mean": compute_mean,
+    "median": compute_median,
+    "quartile": compute_quartile,
+}
+
+def ft_statistics(*args: Any, **kwargs: Any) -> None:
     for key, value in kwargs.items():
-        if (value == 'mean'):
-            num = 0
-            for i in range(len(args)):
-                num = args[i] + num
-            num = num / len(args)
-            print(f"mean : {num}")
-        elif value == 'median':
-            new = sorted(args)
-            print(new)
-            res = 0
-            if len(new) % 2 != 0:
-                p = int((len(new) + 1) / 2)
-                res = new[p - 1]
-            else:
-                p = int(len(new) / 2) - 1
-                res = (new[p] + new[p + 1]) / 2
-            print(res)
-        
+        func = functions.get(value)
+
+        if func is not None:
+            try:
+                res = func(*args)
+                print(f"{value} : {res}")
+            except ValueError:
+                print("ERROR")
