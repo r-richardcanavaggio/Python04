@@ -2,6 +2,7 @@ from typing import Any
 
 
 def compute_mean(*args: float | int) -> float:
+    """Compute the arithmetic mean of given numbers."""
     if not args:
         raise ValueError("One number required for mean computation")
 
@@ -9,6 +10,7 @@ def compute_mean(*args: float | int) -> float:
 
 
 def compute_median(*args: float | int) -> float:
+    """Compute the median of given numbers."""
     if not args:
         raise ValueError("At least one number required"
                          "for median computation")
@@ -24,6 +26,7 @@ def compute_median(*args: float | int) -> float:
 
 
 def compute_quartile(*args: float | int) -> list[float]:
+    """Compute the 25% and 75% quartiles of given numbers."""
     if len(args) < 2:
         raise ValueError("At least two numbers required"
                          "for quartiles computation")
@@ -39,6 +42,7 @@ def compute_quartile(*args: float | int) -> list[float]:
 
 
 def compute_var(*args: float | int) -> float:
+    """Compute the variance of given numbers."""
     if not args:
         raise ValueError("At least one number required"
                          "for variance computation")
@@ -49,19 +53,20 @@ def compute_var(*args: float | int) -> float:
 
 
 def compute_std(*args: float | int) -> float:
+    """Compute the standard deviation of given numbers."""
     return compute_var(*args) ** 0.5
 
 
-functions = {
-    "mean": compute_mean,
-    "median": compute_median,
-    "quartile": compute_quartile,
-    "var": compute_var,
-    "std": compute_std,
-}
-
-
 def ft_statistics(*args: Any, **kwargs: Any) -> None:
+    """Compute and display requested statistical operations."""
+    functions = {
+        "mean": compute_mean,
+        "median": compute_median,
+        "quartile": compute_quartile,
+        "var": compute_var,
+        "std": compute_std,
+    }
+
     for key, value in kwargs.items():
         func = functions.get(value)
 
@@ -69,5 +74,5 @@ def ft_statistics(*args: Any, **kwargs: Any) -> None:
             try:
                 res = func(*args)
                 print(f"{value} : {res}")
-            except ValueError:
+            except Exception:
                 print("ERROR")
