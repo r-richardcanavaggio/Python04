@@ -55,15 +55,19 @@ Python04/
 
 ### 1. Zero-Dependency Descriptive Statistics & Dispatching (`ex00`)
 Instead of relying on NumPy, statistical algorithms were built from mathematical fundamentals:
-* **Quantile Partitioning:** Quartile calculations implement exclusive median hinges ($Q1$ and $Q3$ computed over split sub-arrays around the central median), properly handling both even and odd dataset lengths.
+* **Quantile Partitioning:** Quartile calculations implement exclusive median hinges (`Q1` and `Q3` computed over split sub-arrays around the central median), properly handling both even and odd dataset lengths.
 * **Locally Scoped Dispatcher:** To satisfy the strict constraint forbidding global execution, the function lookup dictionary is instantiated strictly within `ft_statistics()`, mapping arbitrary keyword arguments to calculation routines while trapping `ValueError` and `TypeError` inputs without crashing.
 
 ### 2. Stateful Closures via Lexical Scope (`ex01`)
-Demonstrates function-oriented state preservation using the `nonlocal` keyword. Rather than relying on class instances with `__call__` or polluting outer scopes, `outer()` constructs an isolated closure enclosing `x`. Successive calls apply recursive transformations ($f(x) \to x'$) while keeping state private and garbage-collected once dereferenced.
+Demonstrates function-oriented state preservation using the `nonlocal` keyword. Rather than relying on class instances with `__call__` or polluting outer scopes, `outer()` constructs an isolated closure enclosing `x`. Successive calls apply recursive transformations (`f(x) → x'`) while keeping state private and garbage-collected once dereferenced.
 
 ### 3. Multi-Tier Decorator Architecture (`ex02`)
 Implements a 3-level higher-order wrapper pattern:
-$$\text{callLimit}(\text{limit}) \longrightarrow \text{callLimiter}(\text{function}) \longrightarrow \text{limit\_function}(*\text{args}, **\text{kwargs})$$
+
+```text
+callLimit(limit) ──> callLimiter(function) ──> limit_function(*args, **kwargs)
+```
+
 * **Per-Instance State Isolation:** The call counter `count` is anchored within the scope of `callLimiter(function)`. This guarantees that if multiple distinct functions are decorated with the same limiter factory, each maintains an independent quota and execution count without state bleed.
 
 ### 4. Enforcing Invariants with Dataclass Lifecycle Hooks (`ex03`)
